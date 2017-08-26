@@ -19,7 +19,10 @@ module.exports = {
         collection.insertOne(data, (err, result) => {
             handler(err, result);
         })
-
-
+    },
+    findUser: (data, handler) => {
+        collection.findOne(data, (err, result) => {
+            handler(err, result);
+        })
     }
 }
