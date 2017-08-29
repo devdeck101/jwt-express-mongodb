@@ -29,7 +29,7 @@ router.post('/login', (req, res, next) => {
         //find user in MongoDB
 
         const handler = (err, result) => {
-            if(!err && bcrypt.compareSync(password, result.password)){
+            if(!err && result !== null && bcrypt.compareSync(password, result.password)){
                 let tokenData = {
                     name: result.name,
                     email: result.email
@@ -43,7 +43,7 @@ router.post('/login', (req, res, next) => {
                 res.status(401).json({
                     success: false,
                     code: 'DD101_API_ERROR_02',
-                    message: err
+                    message: err || 'User does not exists.'
                 });
             }
         }
@@ -53,6 +53,24 @@ router.post('/login', (req, res, next) => {
 
     }
 });
+
+router.get('/verifytoken', (req, res, next) => {
+    //[0] = Bearer ----  [1] = token
+    let token = req.headers['authorization'].split(' ')[1];
+    jwt.verify(token, config.JWT_KEY, (err, decode) => {
+        if(!err){
+            res.json({
+                sucess: true,
+                message: 'Token is valid.'
+            });
+        } else {
+            res.status(401).json({
+                success: false,
+                error: err
+            });
+        }
+    })
+})
 
 
 module.exports = router;
