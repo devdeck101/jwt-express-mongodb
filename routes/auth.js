@@ -60,7 +60,7 @@ router.get('/verifytoken', (req, res, next) => {
     jwt.verify(token, config.JWT_KEY, (err, decode) => {
         if(!err){
             res.json({
-                sucess: true,
+                success: true,
                 message: 'Token is valid.'
             });
         } else {
