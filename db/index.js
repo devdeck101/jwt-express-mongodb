@@ -24,5 +24,10 @@ module.exports = {
         collection.findOne(data, (err, result) => {
             handler(err, result);
         })
+    },
+    findAll: (handler) => {
+        collection.find((err, result) => {
+            handler(err, result);
+        })
     }
 }
